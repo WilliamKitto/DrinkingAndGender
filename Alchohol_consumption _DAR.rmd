@@ -58,6 +58,20 @@ and **GPA** a numeric variable that we will need to do further work with in orde
 
 # Methods
 
+The questions are all somewhat related. Questions 1,3, and 4 are asking the same question, the only difference being the members of the groups the question references: 
+
+* all students
+* A students or
+* C students
+
+The question deals with a categorical variable (**Sex**) modeling differences in a continuous variable (**alcohol**). 
+
+Question 2 is relating two continuous variables **alcohol** and **GPA** which require regression/correlation techniques.
+
+So our approach will be to deal with all four question in each block of this report.
+Boxplots and t-tests for questions 1,3, and 4
+scatterplot and regression for question 2.
+
 <Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method.>
 
 #Results
