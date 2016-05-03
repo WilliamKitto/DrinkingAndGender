@@ -18,8 +18,40 @@ This study is to see if alcohol consumption in the ucdavis1 data set differs by 
 3. Do 'C' students show an alcohol consumption difference based on gender
 4. What about 'A' students?
 
+The ucdavis1 data set is included in the tigerstats package. It is a data frame with 173 observations on 12 variables. It was taken from the text book used at UC Irvine, Mind on Statistics, 4th edition, Uts and Heckard. The variables and descriptions are as follows.
+Description
 
+Results of a survey of students at UC-Davis.
 
+* **Sex** a factor with levels Female Male
+
+* **TV** Number of hours spent watching TV per week
+
+* **computer** number of hours spent on computer per week
+
+* **Sleep** hours of sleep per night
+
+* **Seat** a factor with levels Back Front Middle Where do you prefer to sit in class, when you have a choice?
+
+* **alcohol** number of alcoholic drinks consumed per week
+
+* **Height** height in inches
+
+* **momheight** height of mother, in inches
+
+* **dadheight** height of father, in inches
+
+* **exercise** number of hours of exercise per week
+
+* **GPA** grade point average
+
+* **class** a factor with levels LibArts NonLib Student Category: liberal arts or not
+
+Doing a variable analysis shows that the varibles of interest will be
+
+**alcohol**  a numeric variable
+**Sex** a factor variable 
+and **GPA** a numeric variable that we will need to do further work with in order to answer question pertaining to **A** and **C** students
 
 
 <In this section you explain what you are trying to show.  Where did the data come from?  What is the research or other question you are trying to answer?>
