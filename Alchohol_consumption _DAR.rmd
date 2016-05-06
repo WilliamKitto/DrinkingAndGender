@@ -2,7 +2,7 @@
 title: "Is alcohol consumption related to gender and/or GPA?"
 author: "Put your name here!"
 date: "put the date here"
-output: word_document
+output: html_document
 ---
 
 ```{r include=FALSE,echo=FALSE}
@@ -69,12 +69,60 @@ The question deals with a categorical variable (**Sex**) modeling differences in
 Question 2 is relating two continuous variables **alcohol** and **GPA** which require regression/correlation techniques.
 
 So our approach will be to deal with all four question in each block of this report.
+
 Boxplots and t-tests for questions 1,3, and 4
 scatterplot and regression for question 2.
+
+We see that problems 1, 3, and 4 are basically the same question being asked of different groups. The methods we use for these problems involve explaining a numerical variable (**alcohol**) with the categorical variable (**Sex**).  We will use boxplots and or violin plots as our graphical tool, and t-tests as our inferential methods.
+To deal with questions about A and C students we will use this definition
+* **A**  GPA greater than 3.5
+* **C**  GPA between 2 and 2.75
+To answer question 2 we note that both GPA and alcohol are continuous variables. Our graphical tools scatterplots and regression line fits.  So our approach will be to address all four questions in each of our major sections and summarize all results in the conclusion section
 
 <Decide on your methods:  use "variable analysis" or other appropriate descriptors.  Make sure to choose at least one graphical method and at least one numerical method.>
 
 #Results
+
+First we create two smaller data frames. One called **C.Students** and the other **A.Students** by limiting membership to just those students with qualifying GPA scores.
+
+```{r}
+require(tigerstats)
+all.Students <- na.omit(ucdavis1)
+cvals=(all.Students$GPA>=2)&(all.Students$GPA<=2.75)
+avals=(all.Students$GPA>3.5)
+C.Students <-all.Students[cvals,]
+A.Students <-all.Students[avals,]
+Males.all<-all.Students[all.Students$Sex=="Male",]
+Females.all<-all.Students[all.Students$Sex=="Female",]
+C.Females<-C.Students[C.Students$Sex=="Female",]
+C.Males<-C.Students[C.Students$Sex=="Male",]
+A.Males<-A.Students[A.Students$Sex=="Male",]
+A.Females<-A.Students[A.Students$Sex=="Female",]
+```
+### Overall summary of Students 
+
+There are a total of 173 students, 64 of them we are labeling **C.Students** and 29 as **A.Students** 94 **Females** and 79 **Males** 
+
+=======
+The questions are all somewhat related. Questions 1,3, and 4 are asking the same question, the only difference being the members of the groups the question references: 
+
+* all students
+* A students or
+* C students
+
+The question deals with a categorical variable (**Sex**) modeling differences in a continuous variable (**alcohol**). 
+
+Question 2 is relating two continuous variables **alcohol** and **GPA** which require regression/correlation techniques.
+
+So our approach will be to deal with all four question in each block of this report.
+Boxplots and violin plots as graphics and t-tests for inferential for questions 1,3, and 4
+
+scatterplot and regression for question 2.
+
+
+
+#Results
+
 
 <Divide this section into two sub-sections:  One for your descriptive  results and one for your inferential results.>
 
@@ -82,9 +130,116 @@ scatterplot and regression for question 2.
 
 ### Graphical Descriptive Results
 
+
+#### Question 1
+
+We first look at a boxplot with an overlayed violin plot of all students.
+
+```{r}
+bwplot(alcohol ~ Sex,
+	data = all.Students,
+	panel = function(..., box.ratio) {
+		panel.bwplot(..., fill = NULL, box.ratio = 0.1)
+		panel.violin(..., col = "burlywood", border = "grey60", alpha = 0.5, varwidth = FALSE)},
+	main = "Alcohol Consumption All Students",
+	ylab = "Alcoholic drinks per week")
+```
+
+Looking at our graphical display it appears that male students are drinking more tha females.  Moreover the variation of the amount imbibed seems larger for the males as well.  Look at the size of the box in the plot of the male data. Its vertical dimention is twice as large as the box for the females.  This can be interpreted as an approximate comparison of the variance of the two groups of drinkers with that of the males being twice that of females.
+
+#### Question 2
+
+To compare alcohol and GPA both of which are continuous variables we resort to a scatterplot.
+
+```{r}
+xyplot(alcohol ~ GPA,
+	data = all.Students,
+	type = c("p","r"),
+	main = "Alcohol consumption by GPA")
+
+```
+
+The regression line seems to show a negative association between GPA and amount of drinking. Higher GPA is correlated with lower alcohol consumption. We will next display the same sort of plot, but also taking sex into account conditionally.
+
+```{r}
+xyplot(alcohol ~ GPA,
+	data = all.Students,
+	groups = Sex,
+	auto.key = list(
+		space = "top",
+		title = "Sex",
+		cex.title = 1,
+		columns = 1),
+	type = c("p","r"),
+	main = "Alcohol consumption vs GPA conditioned by Sex")
+```
+
+This plot is more revealing!  It appears that GPA and drinking are negatively correlated fore male students, but not so much for females.
+
+#### Question 3
+We look at a boxplot with an overlayed violin plot of C students.
+
+```{r}
+bwplot(alcohol ~ Sex,
+	data = C.Students,
+	panel = function(..., box.ratio) {
+		panel.bwplot(..., fill = NULL, box.ratio = 0.1)
+		panel.violin(..., col = "burlywood", border = "grey60", alpha = 0.5, varwidth = FALSE)},
+	main = "Alcohol Consumption C.Students",
+	ylab = "Alcoholic drinks per week")
+```
+
+The plot shows the inner quartile range of the **male** students (shown by the height of the rectangle in the plot) to be about four times as great as that of the **females** thus raising doubt that male and female drinking behavior is similiar
+
+#### Question 4
+
+We now look at a boxplot with an overlayed violin plot of A students.
+
+```{r}
+bwplot(alcohol ~ Sex,
+	data = A.Students,
+	panel = function(..., box.ratio) {
+		panel.bwplot(..., fill = NULL, box.ratio = 0.1)
+		panel.violin(..., col = "burlywood", border = "grey60", alpha = 0.5, varwidth = FALSE)},
+	main = "Alcohol Consumption A Students",
+	ylab = "Alcoholic drinks per week")
+```
+
+The plot shows the inner quartile range of the **male** students (shown by the height of the rectangle in the plot) to be comperable to that of the **females** 
+
+
 <Graphical results here.  Make sure to show your code.  Provide appropriate labels for axes, giving units if possible, and provide a good title for the graph, too.  Use the graphical results to describe the patterns if any that exist in the data as focused toward the research question>
 
 ### Numerical Descriptive Results
+
+#### Question 1
+
+We will display summary statistics for men and women separately
+
+```{r}
+favstats(alcohol,data=Males.all,na.rm=TRUE)
+favstats(alcohol,data=Females.all,na.rm=TRUE)
+```
+
+These results show a numeric difference in both center and spread of alcohol consumption and spread for Males and females as well. The Male average number of drinks is three times that of Females.  The variation measured by the respective standard deviations is also different by a factor of three with standard deviation of male alcohol consumption being over 10, while that of females around 3.3
+
+#### Question 2
+
+#### Question 3
+
+```{r}
+favstats(alcohol,data=C.Males,na.rm=TRUE)
+favstats(alcohol,data=C.Females,na.rm=TRUE)
+```
+These results show a large numeric difference in both center and spread of alcohol consumption and spread for Males and females who are C students. The Male average number of drinks is four times that of Females.  The variation measured by the respective standard deviations is also different by a factor of four with standard deviation of male alcohol consumption being over 14, while that of females around 3.5
+
+#### Question 4
+
+```{r}
+favstats(alcohol,data=A.Males,na.rm=TRUE)
+favstats(alcohol,data=A.Females,na.rm=TRUE)
+```
+
 
 <Numerical results go here. Use the numerical results to describe the patterns if any that exist in the data as focused toward the research question>
 
